@@ -1,9 +1,6 @@
-import com.sundeep1501.weatherforecast.backend.data.MWParent
-import com.sundeep1501.weatherforecast.backend.data.MWSource
-import com.sundeep1501.weatherforecast.backend.data.MWWeather
+package com.sundeep1501.weatherforecast.backend.data
 
 data class MWLocationInfo (
-
 	val consolidated_weather : List<MWWeather>,
 	val time : String,
 	val sun_rise : String,

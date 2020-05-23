@@ -3,7 +3,7 @@ package com.sundeep1501.weatherforecast.backend
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-class MWRetrofitBuilder {
+object MWRetrofitBuilder {
 
     private val retrofit:Retrofit = Retrofit.Builder()
         .baseUrl("https://www.metaweather.com/api/")
