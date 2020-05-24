@@ -10,4 +10,24 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="hint_enter_city_name">Enter city name</string>
+
+    <string name="the_temp_second_fragment">%1$d°C</string>
+    <string name="min_temp_second_fragment">%1$d°</string>
+    <string name="wind_format_second_fragment">%1$s %2$d mph</string>
+    <string name="humidity_format_second_fragment">%1$d %%</string>
+    <string name="visibility_format_second_fragment">%1$.1f mi</string>
+    <string name="pressure_format_second_fragment">%1$.0fmb</string>
+    <string name="confidence_format_second_fragment">%1$d %%</string>
+
+    <string name="current_details">Current details:</string>
+    <string name="wind">WIND</string>
+    <string name="humidity">HUMIDITY</string>
+    <string name="visibility">VISIBILITY</string>
+    <string name="pressure">PRESSURE</string>
+    <string name="confidence">CONFIDENCE</string>
+
+    <string name="source">metaweather.com</string>
+    <string name="sunrise">SUNRISE</string>
+    <string name="sunset">SUNSET</string>
+    <string name="time">TIME</string>
 </resources>

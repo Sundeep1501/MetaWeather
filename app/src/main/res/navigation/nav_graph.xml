@@ -17,14 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/SecondFragment"
-        android:name="com.sundeep1501.weatherforecast.SecondFragment"
+        android:name="com.sundeep1501.weatherforecast.LocationInfoFragment"
         android:label="@string/second_fragment_label"
         tools:layout="@layout/fragment_second">
-
-        <argument
-            android:name="mwLocationID"
-            app:argType="integer" />
-
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />

@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.sundeep1501.weatherforecast.databinding.FragmentFirstBinding
-import com.sundeep1501.weatherforecast.viewmodels.LocationViewModel
+import com.sundeep1501.weatherforecast.viewmodels.LocationSearchViewModel
+import com.sundeep1501.weatherforecast.viewmodels.LocationSharedViewModel
 import kotlinx.android.synthetic.main.fragment_first.*
 
 /**
@@ -18,7 +20,8 @@ import kotlinx.android.synthetic.main.fragment_first.*
  */
 class SearchLocationFragment : Fragment() {
 
-    private val model: LocationViewModel by activityViewModels()
+    private val locationSearchViewModel: LocationSearchViewModel by activityViewModels()
+    private val locationSharedViewModel: LocationSharedViewModel by activityViewModels()
 
     override fun onCreateView(
             inflater: LayoutInflater, container: ViewGroup?,
@@ -26,12 +29,18 @@ class SearchLocationFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         val binding = FragmentFirstBinding.inflate(inflater, container, false)
-        context?: return binding.root
 
         // setup the adapter for search results
-        val adapter = LocationAdapter()
+        val adapter = LocationAdapter(object:LocationAdapter.InteractionListener{
+            override fun onItemSelected(mwLocationID: Int) {
+                locationSharedViewModel.selectedLocation(mwLocationID)
+                val action = SearchLocationFragmentDirections.actionFirstFragmentToSecondFragment()
+                findNavController().navigate(action)
+            }
+        });
+
         binding.recentSearchList.adapter = adapter
-        model.getLocations().observe(viewLifecycleOwner, Observer { list->
+        locationSearchViewModel.getLocations().observe(viewLifecycleOwner, Observer { list->
             adapter.submitList(list)
         })
         return binding.root
@@ -42,7 +51,7 @@ class SearchLocationFragment : Fragment() {
         //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
 
         search_box.doAfterTextChanged { s: Editable? ->
-            model.search(s.toString())
+            locationSearchViewModel.search(s.toString())
         }
     }
 }

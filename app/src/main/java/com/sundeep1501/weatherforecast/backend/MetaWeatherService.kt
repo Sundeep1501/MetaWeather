@@ -13,13 +13,18 @@ import retrofit2.http.Query
 interface MetaWeatherService {
 
     companion object {
+        private val domain = "https://www.metaweather.com/"
         // singleton instance
         val instance: MetaWeatherService by lazy {
             val retrofit = Retrofit.Builder()
-                .baseUrl("https://www.metaweather.com/api/")
+                .baseUrl(domain+"api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             retrofit.create(MetaWeatherService::class.java)
+        }
+
+        fun getImageUrl(abbr:String): String {
+            return domain+"static/img/weather/png/"+abbr+".png"
         }
     }
 
@@ -27,7 +32,7 @@ interface MetaWeatherService {
     fun searchLocation(@Query("query") txt: String): Call<List<MWLocation>>
 
     @GET("location/{woeid}")
-    fun getLocationInfo(@Path("woeid") woeid: Long): Call<MWLocationInfo>
+    fun getLocationInfo(@Path("woeid") woeid: Int): Call<MWLocationInfo>
 
     @GET("location/{woeid}/{yyyy}/{mm}/{dd}")
     fun getWeatherForDay(

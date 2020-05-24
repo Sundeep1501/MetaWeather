@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="index"
+            type="Integer" />
+
+        <variable
+            name="mwWeather"
+            type="com.sundeep1501.weatherforecast.backend.data.MWWeather" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@{mwWeather.formattedApplicableDate(index)}"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:id="@+id/state_image"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:visibility="@{index == 0? View.INVISIBLE : View.VISIBLE}"
+            app:imageUrl="@{mwWeather.imageUrl}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/max"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:text="@{String.format(@string/min_temp_second_fragment, (int)mwWeather.max_temp)}"
+            app:layout_constraintBottom_toBottomOf="@id/state_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/state_image" />
+
+        <TextView
+            android:id="@+id/min"
+            android:layout_marginEnd="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/darker_gray"
+            android:text="@{String.format(@string/min_temp_second_fragment, (int)mwWeather.min_temp)}"
+            app:layout_constraintBottom_toBottomOf="@id/state_image"
+            app:layout_constraintEnd_toStartOf="@id/max"
+            app:layout_constraintTop_toTopOf="@id/state_image" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

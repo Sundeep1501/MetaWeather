@@ -11,9 +11,9 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
 
-class LocationViewModel : ViewModel() {
+class LocationSearchViewModel : ViewModel() {
 
-    private var call:Call<List<MWLocation>>? = null
+    private var callSearchLocations:Call<List<MWLocation>>? = null
     private val locations = MutableLiveData<List<MWLocation>>()
 
     fun getLocations(): LiveData<List<MWLocation>> {
@@ -22,12 +22,12 @@ class LocationViewModel : ViewModel() {
 
     fun search(txt: String) {
         // cancel previous request and continue with latest search text
-        if(call != null){
-            call!!.cancel()
+        if(callSearchLocations != null){
+            callSearchLocations!!.cancel()
         }
 
-        call = MetaWeatherService.instance.searchLocation(txt)
-        call?.enqueue(object:Callback<List<MWLocation>>{
+        callSearchLocations = MetaWeatherService.instance.searchLocation(txt)
+        callSearchLocations?.enqueue(object:Callback<List<MWLocation>>{
             override fun onFailure(call: Call<List<MWLocation>>, t: Throwable) {
                 when {
                     call.isCanceled -> {
@@ -40,7 +40,6 @@ class LocationViewModel : ViewModel() {
                         Log.i(TAG, "unknown error")
                     }
                 }
-                locations.postValue(null)
             }
             override fun onResponse(
                 call: Call<List<MWLocation>>,
@@ -52,7 +51,7 @@ class LocationViewModel : ViewModel() {
     }
 
     companion object{
-        val TAG = LocationViewModel::class.java.simpleName
+        val TAG = LocationSearchViewModel::class.java.simpleName
     }
 
 }
