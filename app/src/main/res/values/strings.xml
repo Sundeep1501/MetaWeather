@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Weather Forecast</string>
+    <string name="app_name">Weather</string>
     <string name="action_info">Info</string>
     <!-- Strings used for fragments for navigation -->
     <string name="search_location_fragment_label">Search Location Fragment</string>
@@ -33,8 +33,6 @@
     <string name="sunset">SUNSET</string>
     <string name="time">TIME</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="check_past_weather">Check Past Weather</string>
 
 </resources>
