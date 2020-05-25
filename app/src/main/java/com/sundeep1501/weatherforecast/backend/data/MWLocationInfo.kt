@@ -1,5 +1,6 @@
 package com.sundeep1501.weatherforecast.backend.data
 
+import android.util.Log
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -19,16 +20,19 @@ data class MWLocationInfo(
 ) {
 
     private fun format(str: String): String {
-        // 2020-05-23T19:25:41.686640-05:00
-        // 2001-07-04T12:08:56.235-07:00
-        // "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
-		/*
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSXXX")
-        val date = dateFormat.parse(str)
-        val format = SimpleDateFormat("h:mm a")
-        return format.format(date!!)
-		 */
-		return "NA"
+        // expected input format "2020-05-24T08:19:40.807726-05:00"
+        try {
+            val slits = str.split(".")
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            inputFormat.timeZone = TimeZone.getTimeZone(timezone/*"Europe/London"*/)
+
+            val outputFormat = SimpleDateFormat("h:mm a")
+            outputFormat.timeZone = inputFormat.timeZone
+            return outputFormat.format(inputFormat.parse(slits[0])!!)
+        } catch (e: Exception) {
+            Log.e(MWLocationInfo::class.java.simpleName, e.stackTrace.toString());
+        }
+        return "-"
     }
 
     fun formattedTime(): String {
@@ -36,10 +40,10 @@ data class MWLocationInfo(
     }
 
     fun formattedSunriseTime(): String {
-		return format(sun_rise)
+        return format(sun_rise)
     }
 
     fun formattedSunsetTime(): String {
-		return format(sun_set)
+        return format(sun_set)
     }
 }
