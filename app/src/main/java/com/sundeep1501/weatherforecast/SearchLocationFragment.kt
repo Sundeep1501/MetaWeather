@@ -10,10 +10,11 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
-import com.sundeep1501.weatherforecast.databinding.FragmentFirstBinding
+import com.sundeep1501.weatherforecast.adapter.LocationAdapter
+import com.sundeep1501.weatherforecast.databinding.FragmentSearchLocationBinding
 import com.sundeep1501.weatherforecast.viewmodels.LocationSearchViewModel
 import com.sundeep1501.weatherforecast.viewmodels.LocationSharedViewModel
-import kotlinx.android.synthetic.main.fragment_first.*
+import kotlinx.android.synthetic.main.fragment_search_location.*
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -28,16 +29,19 @@ class SearchLocationFragment : Fragment() {
             savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding = FragmentFirstBinding.inflate(inflater, container, false)
+        val binding = FragmentSearchLocationBinding.inflate(inflater, container, false)
 
         // setup the adapter for search results
-        val adapter = LocationAdapter(object:LocationAdapter.InteractionListener{
-            override fun onItemSelected(mwLocationID: Int) {
-                locationSharedViewModel.selectedLocation(mwLocationID)
-                val action = SearchLocationFragmentDirections.actionFirstFragmentToSecondFragment()
-                findNavController().navigate(action)
-            }
-        });
+        val adapter =
+            LocationAdapter(object :
+                LocationAdapter.InteractionListener {
+                override fun onItemSelected(mwLocationID: Int) {
+                    locationSharedViewModel.selectedLocation(mwLocationID)
+                    val action =
+                        SearchLocationFragmentDirections.actionFirstFragmentToSecondFragment()
+                    findNavController().navigate(action)
+                }
+            });
 
         binding.recentSearchList.adapter = adapter
         locationSearchViewModel.getLocations().observe(viewLifecycleOwner, Observer { list->

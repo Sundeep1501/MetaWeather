@@ -1,4 +1,4 @@
-package com.sundeep1501.weatherforecast
+package com.sundeep1501.weatherforecast.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -32,7 +32,7 @@ class LocationAdapter(private val listener: InteractionListener) :
     ) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-            binding.setClickListener { view ->
+            binding.setClickListener {
                 binding.mwLocation?.let { mwLocation ->
                     listener.onItemSelected(mwLocation.woeid)
                 }

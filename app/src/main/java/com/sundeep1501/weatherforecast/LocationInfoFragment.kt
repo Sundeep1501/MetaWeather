@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import com.sundeep1501.weatherforecast.databinding.FragmentLocationInfoBinding
 import com.sundeep1501.weatherforecast.databinding.FragmentSearchLocationBinding
 import com.sundeep1501.weatherforecast.viewmodels.LocationInfoViewModel
 import com.sundeep1501.weatherforecast.viewmodels.LocationSharedViewModel
@@ -24,7 +25,7 @@ class LocationInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSearchLocationBinding.inflate(inflater, container, false)
+        val binding = FragmentLocationInfoBinding.inflate(inflater, container, false)
 
         locationSharedViewModel.getLocations()
             .observe(viewLifecycleOwner, Observer { mwLocationID ->

@@ -1,4 +1,4 @@
-package com.sundeep1501.weatherforecast
+package com.sundeep1501.weatherforecast.adapter
 
 import android.widget.ImageView
 import androidx.databinding.BindingAdapter
