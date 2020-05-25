@@ -2,11 +2,11 @@ package com.sundeep1501.weatherforecast
 
 import android.os.Bundle
 import android.text.Editable
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -25,8 +25,8 @@ class SearchLocationFragment : Fragment() {
     private val locationSharedViewModel: LocationSharedViewModel by activityViewModels()
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         val binding = FragmentSearchLocationBinding.inflate(inflater, container, false)
@@ -37,14 +37,12 @@ class SearchLocationFragment : Fragment() {
                 LocationAdapter.InteractionListener {
                 override fun onItemSelected(mwLocationID: Int) {
                     locationSharedViewModel.selectedLocation(mwLocationID)
-                    val action =
-                        SearchLocationFragmentDirections.actionFirstFragmentToSecondFragment()
-                    findNavController().navigate(action)
+                    findNavController().navigate(R.id.action_searchLocationFragment_to_locationInfoFragment)
                 }
             });
 
         binding.recentSearchList.adapter = adapter
-        locationSearchViewModel.getLocations().observe(viewLifecycleOwner, Observer { list->
+        locationSearchViewModel.getLocations().observe(viewLifecycleOwner, Observer { list ->
             adapter.submitList(list)
         })
         return binding.root
@@ -52,8 +50,6 @@ class SearchLocationFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //findNavController().navigate(R.id.action_FirstFragment_to_SecondFragment)
-
         search_box.doAfterTextChanged { s: Editable? ->
             locationSearchViewModel.search(s.toString())
         }

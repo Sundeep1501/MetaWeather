@@ -35,7 +35,7 @@
             android:id="@+id/state_image"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:visibility="@{index == 0? View.INVISIBLE : View.VISIBLE}"
+            android:visibility="@{index > 1? View.VISIBLE : View.INVISIBLE}"
             app:imageUrl="@{mwWeather.imageUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

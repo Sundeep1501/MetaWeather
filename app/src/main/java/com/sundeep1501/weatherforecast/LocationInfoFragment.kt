@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.sundeep1501.weatherforecast.databinding.FragmentLocationInfoBinding
-import com.sundeep1501.weatherforecast.databinding.FragmentSearchLocationBinding
 import com.sundeep1501.weatherforecast.viewmodels.LocationInfoViewModel
 import com.sundeep1501.weatherforecast.viewmodels.LocationSharedViewModel
 
@@ -40,6 +41,10 @@ class LocationInfoFragment : Fragment() {
                     executePendingBindings()
                 }
             })
+
+        binding.root.findViewById<TextView>(R.id.past).setOnClickListener {
+            findNavController().navigate(R.id.action_locationInfoFragment_to_pastLocationInoFragment)
+        }
         return binding.root
     }
 

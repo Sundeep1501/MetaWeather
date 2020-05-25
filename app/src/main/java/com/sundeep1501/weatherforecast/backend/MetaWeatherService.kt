@@ -37,9 +37,9 @@ interface MetaWeatherService {
 
     @GET("location/{woeid}/{yyyy}/{mm}/{dd}")
     fun getWeatherForDay(
-        @Path("woeid") woeid: Long,
+        @Path("woeid") woeid: Int,
         @Path("yyyy") year: Int,
         @Path("mm") month: Int,
-        @Path("dd") day: Long
+        @Path("dd") day: Int
     ): Call<List<MWWeather>>
 }

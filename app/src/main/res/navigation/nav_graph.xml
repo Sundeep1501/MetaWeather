@@ -3,25 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/FirstFragment">
+    app:startDestination="@id/searchLocationFragment">
 
     <fragment
-        android:id="@+id/FirstFragment"
+        android:id="@+id/searchLocationFragment"
         android:name="com.sundeep1501.weatherforecast.SearchLocationFragment"
-        android:label="@string/first_fragment_label"
+        android:label="@string/search_location_fragment_label"
         tools:layout="@layout/fragment_search_location">
 
         <action
-            android:id="@+id/action_FirstFragment_to_SecondFragment"
-            app:destination="@id/SecondFragment" />
+            android:id="@+id/action_searchLocationFragment_to_locationInfoFragment"
+            app:destination="@id/locationInfoFragment" />
     </fragment>
+
     <fragment
-        android:id="@+id/SecondFragment"
+        android:id="@+id/locationInfoFragment"
         android:name="com.sundeep1501.weatherforecast.LocationInfoFragment"
-        android:label="@string/second_fragment_label"
+        android:label="@string/location_info_fragment_label"
         tools:layout="@layout/fragment_location_info">
         <action
-            android:id="@+id/action_SecondFragment_to_FirstFragment"
-            app:destination="@id/FirstFragment" />
+            android:id="@+id/action_locationInfoFragment_to_searchLocationFragment"
+            app:destination="@id/searchLocationFragment" />
+
+        <action
+            android:id="@+id/action_locationInfoFragment_to_pastLocationInoFragment"
+            app:destination="@id/pastLocationInoFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/pastLocationInoFragment"
+        android:name="com.sundeep1501.weatherforecast.PastLocationInfoFragment"
+        android:label="@string/past_location_info_fragment_label"
+        tools:layout="@layout/fragment_past_location_info">
+        <action
+            android:id="@+id/action_pastLocationInoFragment_to_locationInfoFragment"
+            app:destination="@id/locationInfoFragment" />
+    </fragment>
+
 </navigation>

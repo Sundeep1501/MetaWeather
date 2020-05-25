@@ -26,61 +26,17 @@
             android:layout_height="wrap_content"
             tools:context=".LocationInfoFragment">
 
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{mwLocationInfo.title}"
-                android:textSize="48sp"
-                app:layout_constraintStart_toStartOf="@id/state_image"
+            <include
+                android:id="@+id/weather"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:text="New York" />
-
-            <TextView
-                android:id="@+id/parent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
-                android:text="@{mwLocationInfo.parent.title}"
-                app:layout_constraintBottom_toBottomOf="@id/title"
-                app:layout_constraintStart_toEndOf="@id/title"
-                tools:text="New York" />
-
-            <ImageView
-                android:id="@+id/state_image"
-                android:layout_width="128dp"
-                android:layout_height="128dp"
-                app:imageUrl="@{mwLocationInfo.consolidated_weather.get(0).imageUrl}"
-                app:layout_constraintEnd_toStartOf="@+id/the_temp"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintHorizontal_chainStyle="packed"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title" />
-
-            <TextView
-                android:id="@+id/weather_state_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{mwLocationInfo.consolidated_weather.get(0).weather_state_name}"
-                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
-                app:layout_constraintBottom_toBottomOf="@id/state_image"
-                app:layout_constraintStart_toStartOf="@+id/the_temp"
-                app:layout_constraintTop_toBottomOf="@+id/the_temp"
-                tools:text="light rain" />
-
-            <TextView
-                android:id="@+id/the_temp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{String.format(@string/the_temp_second_fragment, (int)mwLocationInfo.consolidated_weather.get(0).the_temp)}"
-                android:textSize="72sp"
-                app:layout_constraintBottom_toTopOf="@id/weather_state_name"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toEndOf="@+id/state_image"
-                app:layout_constraintTop_toTopOf="@+id/state_image"
-                app:layout_constraintVertical_chainStyle="packed"
-                tools:text="99C" />
+                layout="@layout/view_weather"
+                bind:title="@{mwLocationInfo.title}"
+                bind:parent="@{mwLocationInfo.parent.title}"
+                bind:mwWeather="@{mwLocationInfo.consolidated_weather.get(0)}"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:id="@+id/time"
@@ -91,7 +47,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/sunrise"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/state_image" />
+                app:layout_constraintTop_toBottomOf="@id/weather" />
 
             <TextView
                 android:id="@+id/time_val"
@@ -113,7 +69,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/sunset"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/time"
-                app:layout_constraintTop_toBottomOf="@id/state_image" />
+                app:layout_constraintTop_toBottomOf="@id/weather" />
 
             <TextView
                 android:id="@+id/sunrise_val"
@@ -135,7 +91,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/sunrise"
-                app:layout_constraintTop_toBottomOf="@id/state_image" />
+                app:layout_constraintTop_toBottomOf="@id/weather" />
 
             <TextView
                 android:id="@+id/sunset_val"
@@ -150,10 +106,10 @@
 
             <include
                 android:id="@+id/zero"
-                android:layout_marginTop="16dp"
                 layout="@layout/view_min_max_temp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sunrise_val"
@@ -165,6 +121,7 @@
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/zero" />
 
@@ -284,142 +241,41 @@
                 bind:index="@{forecastSize>10?10:forecastSize-1}"
                 bind:mwWeather="@{mwLocationInfo.consolidated_weather.get(forecastSize>10?10:forecastSize-1)}" />
 
+            <TextView
+                android:id="@+id/past"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:text="@string/check_past_weather"
+                android:padding="8dp"
+                app:layout_constraintTop_toBottomOf="@id/ten"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/ic_arrow_right_black_24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ten" />
+
             <View
                 android:id="@+id/forecast_end"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:background="@android:color/darker_gray"
-                app:layout_constraintBottom_toBottomOf="@id/ten"
+                app:layout_constraintBottom_toBottomOf="@id/past"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent" />
 
-            <TextView
-                android:id="@+id/cd"
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="wrap_content"
+            <include
+                layout="@layout/view_weather_misc"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/current_details"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/forecast_end" />
-
-            <View
-                android:id="@+id/middle"
-                android:layout_width="1dp"
-                android:layout_height="1dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cd" />
-
-            <TextView
-                android:id="@+id/wind"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/wind"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cd" />
-
-            <TextView
-                android:id="@+id/wind_val"
-                style="@style/TextAppearance.AppCompat.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{String.format(@string/wind_format_second_fragment, mwLocationInfo.consolidated_weather.get(0).wind_direction_compass, (int)mwLocationInfo.consolidated_weather.get(0).wind_speed)}"
-                app:layout_constraintStart_toStartOf="@id/wind"
-                app:layout_constraintTop_toBottomOf="@id/wind"
-                tools:text="s 9 mph" />
-
-            <TextView
-                android:id="@+id/humidity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/humidity"
-                app:layout_constraintStart_toStartOf="@id/middle"
-                app:layout_constraintTop_toBottomOf="@id/cd" />
-
-            <TextView
-                android:id="@+id/humidity_val"
-                style="@style/TextAppearance.AppCompat.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{String.format(@string/humidity_format_second_fragment, mwLocationInfo.consolidated_weather.get(0).humidity)}"
-                app:layout_constraintStart_toStartOf="@id/humidity"
-                app:layout_constraintTop_toBottomOf="@id/wind"
-                tools:text="71%" />
-
-            <TextView
-                android:id="@+id/visibility"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/visibility"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/wind_val" />
-
-            <TextView
-                android:id="@+id/visibility_val"
-                style="@style/TextAppearance.AppCompat.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{String.format(@string/visibility_format_second_fragment, mwLocationInfo.consolidated_weather.get(0).visibility)}"
-                app:layout_constraintStart_toStartOf="@id/visibility"
-                app:layout_constraintTop_toBottomOf="@id/visibility"
-                tools:text="13.5 miles" />
-
-            <TextView
-                android:id="@+id/pressure"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/pressure"
-                app:layout_constraintStart_toStartOf="@id/middle"
-                app:layout_constraintTop_toBottomOf="@id/wind_val" />
-
-            <TextView
-                android:id="@+id/pressure_val"
-                style="@style/TextAppearance.AppCompat.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{String.format(@string/pressure_format_second_fragment, mwLocationInfo.consolidated_weather.get(0).air_pressure)}"
-                app:layout_constraintStart_toStartOf="@id/pressure"
-                app:layout_constraintTop_toBottomOf="@id/pressure"
-                tools:text="1080mb" />
-
-            <TextView
-                android:id="@+id/confidence"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="16dp"
-                android:text="@string/confidence"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/visibility_val" />
-
-            <TextView
-                android:id="@+id/confidence_val"
-                style="@style/TextAppearance.AppCompat.Large"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@{String.format(@string/confidence_format_second_fragment, mwLocationInfo.consolidated_weather.get(0).predictability)}"
-                app:layout_constraintStart_toStartOf="@id/confidence"
-                app:layout_constraintTop_toBottomOf="@id/confidence"
-                tools:text="1080mb" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/source"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/confidence_val" />
+                app:layout_constraintTop_toBottomOf="@id/forecast_end"
+                bind:mwWeather="@{mwLocationInfo.consolidated_weather.get(0)}"
+                bind:title="@{String.format(@string/current_details)}" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

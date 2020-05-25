@@ -25,12 +25,16 @@ data class MWWeather(
         return MetaWeatherService.getImageUrl(weather_state_abbr)
     }
 
-    private fun formattedApplicableDate(): String {
+    private fun formattedApplicableDate(): String = formattedApplicableDate("EEE d")
+
+    private fun formattedApplicableDate(pattern: String): String {
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val date = dateFormat.parse(applicable_date)
-        val format = SimpleDateFormat("EEE d", Locale.getDefault())
+        val format = SimpleDateFormat(pattern, Locale.getDefault())
         return format.format(date!!)
     }
+
+    private fun formattedFullApplicableDate(): String = formattedApplicableDate("EEE d MMM")
 
     fun formattedApplicableDate(index: Int): String {
         return when (index) {
@@ -39,6 +43,9 @@ data class MWWeather(
             }
             1 -> {
                 "Tomorrow"
+            }
+            -1 -> {
+                formattedFullApplicableDate()
             }
             else -> formattedApplicableDate()
         }
