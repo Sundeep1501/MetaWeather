@@ -34,7 +34,7 @@ data class MWWeather(
         return format.format(date!!)
     }
 
-    private fun formattedFullApplicableDate(): String = formattedApplicableDate("EEE d MMM")
+    private fun formattedFullApplicableDate(): String = formattedApplicableDate("EEE, dd MMM yyyy")
 
     fun formattedApplicableDate(index: Int): String {
         return when (index) {

@@ -21,9 +21,6 @@
         android:name="com.sundeep1501.weatherforecast.LocationInfoFragment"
         android:label="@string/location_info_fragment_label"
         tools:layout="@layout/fragment_location_info">
-        <action
-            android:id="@+id/action_locationInfoFragment_to_searchLocationFragment"
-            app:destination="@id/searchLocationFragment" />
 
         <action
             android:id="@+id/action_locationInfoFragment_to_pastLocationInoFragment"
@@ -35,9 +32,7 @@
         android:name="com.sundeep1501.weatherforecast.PastLocationInfoFragment"
         android:label="@string/past_location_info_fragment_label"
         tools:layout="@layout/fragment_past_location_info">
-        <action
-            android:id="@+id/action_pastLocationInoFragment_to_locationInfoFragment"
-            app:destination="@id/locationInfoFragment" />
+
     </fragment>
 
 </navigation>

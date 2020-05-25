@@ -10,9 +10,6 @@ import androidx.lifecycle.Observer
 import com.sundeep1501.weatherforecast.databinding.FragmentPastLocationInfoBinding
 import com.sundeep1501.weatherforecast.viewmodels.LocationInfoViewModel
 import com.sundeep1501.weatherforecast.viewmodels.PastLocationInfoViewModel
-import java.text.SimpleDateFormat
-import java.util.*
-
 
 class PastLocationInfoFragment : Fragment() {
 
@@ -36,15 +33,8 @@ class PastLocationInfoFragment : Fragment() {
         locationInfoViewModel.getLocationInfo()
             .observe(viewLifecycleOwner, Observer { mwLocationInfo ->
 
-                // get date and parse to previous date.
-
-                val date =
-                    SimpleDateFormat("yyyy-MM-dd").parse(mwLocationInfo.consolidated_weather[0].applicable_date)
-                Calendar.getInstance()
-                pastLocationInfoViewModel.getLocationDetails(
-                    mwLocationInfo.woeid, SimpleDateFormat("yyyy").format(date).toInt(),
-                    SimpleDateFormat("MM").format(date).toInt(),
-                    SimpleDateFormat("dd").format(date).toInt() - 1
+                pastLocationInfoViewModel.getPreviousDayWeather(
+                    mwLocationInfo.woeid, mwLocationInfo.consolidated_weather[0].applicable_date
                 )
                 binding.apply {
                     mwLocationInfo.copy()
@@ -55,6 +45,10 @@ class PastLocationInfoFragment : Fragment() {
 
             })
 
+        binding.minMax.date.setOnClickListener {
+            val newFragment = DatePickerFragment()
+            newFragment.show(parentFragmentManager, "datePicker")
+        }
         return binding.root
     }
 }

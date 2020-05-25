@@ -10,9 +10,13 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.*
 
-class PastLocationInfoViewModel() : ViewModel() {
+class PastLocationInfoViewModel : ViewModel() {
 
+    private var woeid: Int = 0
+    val cal: Calendar = Calendar.getInstance()
     private var callPastLocationInfo: Call<List<MWWeather>>? = null
     private val pastLocationInfo = MutableLiveData<List<MWWeather>>()
 
@@ -20,14 +24,29 @@ class PastLocationInfoViewModel() : ViewModel() {
         return pastLocationInfo
     }
 
-    fun getLocationDetails(woeid: Int, year: Int, month: Int, day: Int) {
+    fun getPreviousDayWeather(woeid: Int, applicable_date: String) {
+        this.woeid = woeid
+        cal.time = SimpleDateFormat("yyyy-MM-dd").parse(applicable_date)
+        cal.add(Calendar.DATE, -1)
+        getLocationDetails(
+            cal.get(Calendar.YEAR),
+            cal.get(Calendar.MONTH),
+            cal.get(Calendar.DATE)
+        )
+    }
+
+    private fun getLocationDetails(year: Int, month: Int, date: Int) {
         // cancel previous request and continue with latest search text
         if (callPastLocationInfo != null) {
             callPastLocationInfo!!.cancel()
         }
 
+        cal.set(Calendar.YEAR, year)
+        cal.set(Calendar.MONTH, month)
+        cal.set(Calendar.DATE, date)
+
         callPastLocationInfo =
-            MetaWeatherService.instance.getWeatherForDay(woeid, year, month, day)
+            MetaWeatherService.instance.getWeatherForDay(woeid, year, month + 1, date)
         callPastLocationInfo?.enqueue(object : Callback<List<MWWeather>> {
             override fun onFailure(call: Call<List<MWWeather>>, t: Throwable) {
                 when {
@@ -50,6 +69,10 @@ class PastLocationInfoViewModel() : ViewModel() {
                 pastLocationInfo.postValue(response.body())
             }
         })
+    }
+
+    fun selectedDate(year: Int, month: Int, day: Int) {
+        getLocationDetails(year, month, day)
     }
 
     companion object {
