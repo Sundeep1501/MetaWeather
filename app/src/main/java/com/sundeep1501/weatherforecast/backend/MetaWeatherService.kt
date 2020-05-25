@@ -1,5 +1,6 @@
 package com.sundeep1501.weatherforecast.backend
 
+import com.sundeep1501.weatherforecast.BuildConfig
 import com.sundeep1501.weatherforecast.backend.data.MWLocation
 import com.sundeep1501.weatherforecast.backend.data.MWLocationInfo
 import com.sundeep1501.weatherforecast.backend.data.MWWeather
@@ -13,18 +14,18 @@ import retrofit2.http.Query
 interface MetaWeatherService {
 
     companion object {
-        private val domain = "https://www.metaweather.com/"
+
         // singleton instance
         val instance: MetaWeatherService by lazy {
             val retrofit = Retrofit.Builder()
-                .baseUrl(domain+"api/")
+                .baseUrl(BuildConfig.DOMAIN + "api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
             retrofit.create(MetaWeatherService::class.java)
         }
 
-        fun getImageUrl(abbr:String): String {
-            return domain+"static/img/weather/png/"+abbr+".png"
+        fun getImageUrl(abbr: String): String {
+            return BuildConfig.DOMAIN + "static/img/weather/png/" + abbr + ".png"
         }
     }
 

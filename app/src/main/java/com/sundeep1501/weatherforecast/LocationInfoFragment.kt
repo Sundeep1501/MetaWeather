@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import com.sundeep1501.weatherforecast.databinding.FragmentSecondBinding
+import com.sundeep1501.weatherforecast.databinding.FragmentSearchLocationBinding
 import com.sundeep1501.weatherforecast.viewmodels.LocationInfoViewModel
 import com.sundeep1501.weatherforecast.viewmodels.LocationSharedViewModel
 
@@ -25,7 +24,7 @@ class LocationInfoFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentSecondBinding.inflate(inflater, container, false)
+        val binding = FragmentSearchLocationBinding.inflate(inflater, container, false)
 
         locationSharedViewModel.getLocations()
             .observe(viewLifecycleOwner, Observer { mwLocationID ->
@@ -43,12 +42,4 @@ class LocationInfoFragment : Fragment() {
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-//        view.findViewById<Button>(R.id.button_second).setOnClickListener {
-            // findNavController().navigate(R.id.action_SecondFragment_to_FirstFragment)
-//        }
-    }
 }
