@@ -56,10 +56,18 @@ class PastLocationInfoFragment : Fragment() {
                 }
             }
         })
+
+        binding.minMax.dateMore.setOnClickListener{
+            showDatePicker()
+        }
         binding.minMax.date.setOnClickListener {
-            val newFragment = DatePickerFragment()
-            newFragment.show(parentFragmentManager, "datePicker")
+            showDatePicker()
         }
         return binding.root
+    }
+
+    private fun showDatePicker() {
+        val newFragment = DatePickerFragment()
+        newFragment.show(parentFragmentManager, "datePicker")
     }
 }
