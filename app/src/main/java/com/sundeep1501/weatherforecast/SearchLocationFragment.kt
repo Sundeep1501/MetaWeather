@@ -45,6 +45,17 @@ class SearchLocationFragment : Fragment() {
         locationSearchViewModel.getLocations().observe(viewLifecycleOwner, Observer { list ->
             adapter.submitList(list)
         })
+
+        locationSearchViewModel.getProgressBar().observe(viewLifecycleOwner, Observer {
+            progress_bar.visibility = when {
+                it -> {
+                    View.VISIBLE
+                }
+                else -> {
+                    View.INVISIBLE
+                }
+            }
+        })
         return binding.root
     }
 

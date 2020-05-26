@@ -13,8 +13,13 @@ import java.io.IOException
 
 class LocationSearchViewModel : ViewModel() {
 
-    private var callSearchLocations:Call<List<MWLocation>>? = null
+    private var callSearchLocations: Call<List<MWLocation>>? = null
     private val locations = MutableLiveData<List<MWLocation>>()
+    private val progressBar = MutableLiveData<Boolean>()
+
+    fun getProgressBar(): LiveData<Boolean> {
+        return progressBar
+    }
 
     fun getLocations(): LiveData<List<MWLocation>> {
         return locations
@@ -22,13 +27,15 @@ class LocationSearchViewModel : ViewModel() {
 
     fun search(txt: String) {
         // cancel previous request and continue with latest search text
-        if(callSearchLocations != null){
+        if (callSearchLocations != null) {
             callSearchLocations!!.cancel()
         }
 
+        progressBar.postValue(true)
         callSearchLocations = MetaWeatherService.instance.searchLocation(txt)
-        callSearchLocations?.enqueue(object:Callback<List<MWLocation>>{
+        callSearchLocations?.enqueue(object : Callback<List<MWLocation>> {
             override fun onFailure(call: Call<List<MWLocation>>, t: Throwable) {
+                progressBar.postValue(false)
                 when {
                     call.isCanceled -> {
                         Log.i(TAG, "request cancelled")
@@ -41,16 +48,18 @@ class LocationSearchViewModel : ViewModel() {
                     }
                 }
             }
+
             override fun onResponse(
                 call: Call<List<MWLocation>>,
                 response: Response<List<MWLocation>>
             ) {
+                progressBar.postValue(false)
                 locations.postValue(response.body())
             }
         })
     }
 
-    companion object{
+    companion object {
         val TAG = LocationSearchViewModel::class.java.simpleName
     }
 

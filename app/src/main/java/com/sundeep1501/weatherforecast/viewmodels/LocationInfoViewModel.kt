@@ -15,6 +15,11 @@ class LocationInfoViewModel() : ViewModel() {
 
     private var callLocationInfo: Call<MWLocationInfo>? = null
     private val locationInfo = MutableLiveData<MWLocationInfo>()
+    private val progressBar = MutableLiveData<Boolean>()
+
+    fun getProgressBar(): LiveData<Boolean> {
+        return progressBar
+    }
 
     fun getLocationInfo(): LiveData<MWLocationInfo> {
         return locationInfo
@@ -26,9 +31,11 @@ class LocationInfoViewModel() : ViewModel() {
             callLocationInfo!!.cancel()
         }
 
+        progressBar.postValue(true);
         callLocationInfo = MetaWeatherService.instance.getLocationInfo(mwLocationID)
         callLocationInfo?.enqueue(object : Callback<MWLocationInfo> {
             override fun onFailure(call: Call<MWLocationInfo>, t: Throwable) {
+                progressBar.postValue(false)
                 when {
                     call.isCanceled -> {
                         Log.i(TAG, "request cancelled")
@@ -46,6 +53,7 @@ class LocationInfoViewModel() : ViewModel() {
                 call: Call<MWLocationInfo>,
                 response: Response<MWLocationInfo>
             ) {
+                progressBar.postValue(false)
                 locationInfo.postValue(response.body())
             }
         })

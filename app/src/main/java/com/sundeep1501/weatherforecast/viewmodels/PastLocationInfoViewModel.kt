@@ -19,6 +19,11 @@ class PastLocationInfoViewModel : ViewModel() {
     val cal: Calendar = Calendar.getInstance()
     private var callPastLocationInfo: Call<List<MWWeather>>? = null
     private val pastLocationInfo = MutableLiveData<List<MWWeather>>()
+    private val progressBar = MutableLiveData<Boolean>()
+
+    fun getProgressBar(): LiveData<Boolean> {
+        return progressBar
+    }
 
     fun getPastLocationInfo(): LiveData<List<MWWeather>> {
         return pastLocationInfo
@@ -44,11 +49,12 @@ class PastLocationInfoViewModel : ViewModel() {
         cal.set(Calendar.YEAR, year)
         cal.set(Calendar.MONTH, month)
         cal.set(Calendar.DATE, date)
-
+        progressBar.postValue(true)
         callPastLocationInfo =
             MetaWeatherService.instance.getWeatherForDay(woeid, year, month + 1, date)
         callPastLocationInfo?.enqueue(object : Callback<List<MWWeather>> {
             override fun onFailure(call: Call<List<MWWeather>>, t: Throwable) {
+                progressBar.postValue(false)
                 when {
                     call.isCanceled -> {
                         Log.i(TAG, "request cancelled")
@@ -66,6 +72,7 @@ class PastLocationInfoViewModel : ViewModel() {
                 call: Call<List<MWWeather>>,
                 response: Response<List<MWWeather>>
             ) {
+                progressBar.postValue(false)
                 pastLocationInfo.postValue(response.body())
             }
         })

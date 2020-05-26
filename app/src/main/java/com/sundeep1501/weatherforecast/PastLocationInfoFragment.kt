@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import com.sundeep1501.weatherforecast.databinding.FragmentPastLocationInfoBinding
 import com.sundeep1501.weatherforecast.viewmodels.LocationInfoViewModel
 import com.sundeep1501.weatherforecast.viewmodels.PastLocationInfoViewModel
+import kotlinx.android.synthetic.main.fragment_past_location_info.*
 
 class PastLocationInfoFragment : Fragment() {
 
@@ -45,6 +46,16 @@ class PastLocationInfoFragment : Fragment() {
 
             })
 
+        pastLocationInfoViewModel.getProgressBar().observe(viewLifecycleOwner, Observer {
+            progress_bar.visibility = when {
+                it -> {
+                    View.VISIBLE
+                }
+                else -> {
+                    View.INVISIBLE
+                }
+            }
+        })
         binding.minMax.date.setOnClickListener {
             val newFragment = DatePickerFragment()
             newFragment.show(parentFragmentManager, "datePicker")

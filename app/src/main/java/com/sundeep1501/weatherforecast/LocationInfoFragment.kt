@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.sundeep1501.weatherforecast.databinding.FragmentLocationInfoBinding
 import com.sundeep1501.weatherforecast.viewmodels.LocationInfoViewModel
 import com.sundeep1501.weatherforecast.viewmodels.LocationSharedViewModel
+import kotlinx.android.synthetic.main.fragment_location_info.*
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
@@ -41,6 +42,17 @@ class LocationInfoFragment : Fragment() {
                     executePendingBindings()
                 }
             })
+
+        locationInfoViewModel.getProgressBar().observe(viewLifecycleOwner, Observer {
+            progress_bar.visibility = when {
+                it -> {
+                    View.VISIBLE
+                }
+                else -> {
+                    View.INVISIBLE
+                }
+            }
+        })
 
         binding.root.findViewById<TextView>(R.id.past).setOnClickListener {
             findNavController().navigate(R.id.action_locationInfoFragment_to_pastLocationInoFragment)
