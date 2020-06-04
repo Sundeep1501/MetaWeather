@@ -16,6 +16,7 @@ class LocationSearchViewModel : ViewModel() {
     private var callSearchLocations: Call<List<MWLocation>>? = null
     private val locations = MutableLiveData<List<MWLocation>>()
     private val progressBar = MutableLiveData<Boolean>()
+    private var searchString:String? = null
 
     fun getProgressBar(): LiveData<Boolean> {
         return progressBar
@@ -31,6 +32,9 @@ class LocationSearchViewModel : ViewModel() {
             callSearchLocations!!.cancel()
         }
 
+        if(searchString != null && searchString == txt){
+           return
+        }
         progressBar.postValue(true)
         callSearchLocations = MetaWeatherService.instance.searchLocation(txt)
         callSearchLocations?.enqueue(object : Callback<List<MWLocation>> {
@@ -55,6 +59,7 @@ class LocationSearchViewModel : ViewModel() {
             ) {
                 progressBar.postValue(false)
                 locations.postValue(response.body())
+                searchString = txt
             }
         })
     }
